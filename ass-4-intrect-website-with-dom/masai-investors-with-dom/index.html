@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Masai Investors</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .investors {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .investor {
+    width: 200px;
+    padding: 20px;
+    margin: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  .investor img {
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  .investor h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  .investor p {
+    font-size: 14px;
+    color: #555;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Strategic Investors</h1>
+  <div class="investors" id="investors">
+    <!-- Investors will be added dynamically using JavaScript -->
+  </div>
+</div>
+
+<script>
+// Investors data (you can replace this with actual data if available)
+const investorsData = [
+  { name: "Vijay Shekhar Sharma", image: "https://masai-website-images.s3.ap-south-1.amazonaws.com/Vijay_Shekhar_Sharma_Paytm_96f52579b8.jpg", description: "Founder & CEO" },
+  { name: "Kunal Shah", image: "https://masai-website-images.s3.ap-south-1.amazonaws.com/Rectangle_427_637d69bb57.png", description: "founder" },
+  { name: "Amrish Rau", image: "https://masai-website-images.s3.ap-south-1.amazonaws.com/amrish_rau_pine_labs_144e5e587c.jpg", description: "CEO" },
+  { name: "Sampad Swain", image: "https://masai-website-images.s3.ap-south-1.amazonaws.com/Sampad_swain_Instamojo_f12bf6341e.jpg", description: "Co-Founder & CEO" }
+];
+
+// Function to create investor elements
+function createInvestorElement(investor) {
+  const investorDiv = document.createElement("div");
+  investorDiv.classList.add("investor");
+
+  const image = document.createElement("img");
+  image.src = investor.image;
+  image.alt = investor.name;
+  investorDiv.appendChild(image);
+
+  const nameHeading = document.createElement("h2");
+  nameHeading.textContent = investor.name;
+  investorDiv.appendChild(nameHeading);
+
+  const descriptionParagraph = document.createElement("p");
+  descriptionParagraph.textContent = investor.description;
+  investorDiv.appendChild(descriptionParagraph);
+
+  return investorDiv;
+}
+
+// Function to render investors
+function renderInvestors() {
+  const investorsContainer = document.getElementById("investors");
+  investorsData.forEach(investor => {
+    const investorElement = createInvestorElement(investor);
+    investorsContainer.appendChild(investorElement);
+  });
+}
+
+// Call the function to render investors
+renderInvestors();
+</script>
+
+</body>
+</html>
