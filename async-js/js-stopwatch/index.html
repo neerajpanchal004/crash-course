@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            border: 2px solid black;
+            border-radius: 5px;
+            padding: 10px;
+            width: 200px;
+            
+        
+        }
+
+        .stopwatch {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class="stopwatch">00:00:00</div>
+        <button id="start">Start</button>
+        <button id="pause">Pause</button>
+        <button id="reset">Reset</button>
+    </div>
+
+
+
+</body>
+
+</html>
+
+<script>
+    let timerId;
+    let elapsedTime = 0;
+    let isPaused = false;
+
+    function formatTime(ms) {
+        let seconds = Math.floor((ms / 1000) % 60);
+        let minutes = Math.floor((ms / (1000 * 60)) % 60);
+        let hours = Math.floor((ms / (1000 * 60 * 60)));
+
+        return `${hours > 0 ? hours.toString().padStart(2, '0') + ':' : ''}${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function startTimer() {
+        if (!timerId) {
+            timerId = setInterval(() => {
+                elapsedTime += 1000;
+                updateDisplay();
+            }, 1000);
+        }
+    }
+
+    function pauseTimer() {
+        clearInterval(timerId);
+        timerId = null;
+    }
+
+    function resetTimer() {
+        clearInterval(timerId);
+        timerId = null;
+        elapsedTime = 0;
+        isPaused = false;
+        updateDisplay();
+    }
+
+    function updateDisplay() {
+        document.querySelector('.stopwatch').textContent = formatTime(elapsedTime);
+    }
+
+    document.getElementById('start').addEventListener('click', startTimer);
+    document.getElementById('pause').addEventListener('click', pauseTimer);
+    document.getElementById('reset').addEventListener('click', resetTimer);
+
+    updateDisplay();
+</script>
