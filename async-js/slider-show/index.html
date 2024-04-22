@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slideshow</title>
+<style>
+   
+    .slideshow-container {
+        position: relative;
+        width: 400px;
+        height: 400px;
+        object-fit: contain;
+        margin: auto;
+    }
+    .slide {
+        display: none;
+        width: 100%;
+    }
+    .slide img {
+        width: 100%;
+    }
+    .prev, .next {
+        top: 50%;
+        width: auto;
+        padding: 16px;
+        color: white;
+        background-color: black;
+       
+    }
+    .start-stop {
+        cursor: pointer;
+        margin-bottom: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: dodgerblue;
+        color: white;
+        border: none;
+        border-radius: 5px;
+    }
+</style>
+</head>
+<body>
+    <div class="slideshow-container">
+    </div>
+    <button class="start-stop">Start</button>
+    <button class="prev">&#10094; Prev</button>
+    <button class="next">Next &#10095;</button>
+
+  
+</body>
+</html>
+
+<script>
+    let slideIndex = 0;
+    let timerId;
+    let isPaused = true;
+    const images = [
+
+        'https://rukminim2.flixcart.com/image/612/612/xif0q/cycle/l/g/q/-original-imagzd92ekg2u7bk.jpeg?q=70',
+        'https://rukminim2.flixcart.com/image/612/612/xif0q/cycle/g/c/m/ladybird-breeze-26t-bicycle-for-girls-women-with-basket-and-original-imagh56yrgn8ehnn.jpeg?q=70',
+        'https://rukminim2.flixcart.com/image/612/612/xif0q/cycle/6/z/m/beast-24t-with-front-suspension-and-disc-brake-and-complete-original-imagvz8yyy8gyzxg.jpeg?q=70',
+        'https://rukminim2.flixcart.com/image/612/612/xif0q/cycle/r/j/h/georgia-cycle-for-kids-5-to-8-years-dual-shade-20-20-east-coast-original-imagxsp6ytagetwu.jpeg?q=70',
+        'https://rukminim2.flixcart.com/image/612/612/xif0q/cycle/s/e/w/gta-edition-16-inch-fat-tyre-cycle-in-red-black-for-age-4-to-8-original-imagu3g6g86yxqvx.jpeg?q=70',
+        'https://rukminim2.flixcart.com/image/612/612/xif0q/cycle/s/e/v/bicycle-16-t-joom-double-seat-blue-for-5-to-7-year-kids-baby-16-original-imagn8yzaxbvngss.jpeg?q=70',
+        'https://rukminim2.flixcart.com/image/612/612/xif0q/cycle/h/u/n/elora-pro-single-speed-24-14-cradiac-108-single-speed-original-imagtvghgkmfavz2.jpeg?q=70',
+        'https://rukminim2.flixcart.com/image/612/612/xif0q/cycle/8/k/c/kiddo-cycle-for-kids-bicycles-age-3-to-5-year-boys-girls-road-original-imagy72ybbdkmwpt.jpeg?q=70',
+    ];
+
+    function addSlides() {
+        const slideshowContainer = document.querySelector('.slideshow-container');
+        images.forEach((imageUrl) => {
+            const slideDiv = document.createElement('div');
+            slideDiv.classList.add('slide');
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.alt = 'Slide Image';
+            slideDiv.appendChild(img);
+            slideshowContainer.appendChild(slideDiv);
+        });
+    }
+
+    function showSlides() {
+        let slides = document.querySelectorAll('.slide');
+        if (slideIndex >= slides.length) {
+            slideIndex = 0;
+        }
+        if (slideIndex < 0) {
+            slideIndex = slides.length - 1;
+        }
+        slides.forEach((slide) => {
+            slide.style.display = 'none';
+        });
+        slides[slideIndex].style.display = 'block';
+    }
+
+    function nextSlide() {
+        if (!isPaused) {
+            pauseSlideshow();
+        }
+        slideIndex++;
+        showSlides();
+    }
+
+    function prevSlide() {
+        if (!isPaused) {
+            pauseSlideshow();
+        }
+        slideIndex--;
+        showSlides();
+    }
+
+    function startStopSlideshow() {
+        if (isPaused) {
+            timerId = setInterval(nextSlide, 1000); 
+            document.querySelector('.start-stop').textContent = 'Stop';
+        } else {
+            pauseSlideshow();
+        }
+        isPaused = !isPaused;
+    }
+
+    function pauseSlideshow() {
+        clearInterval(timerId);
+        document.querySelector('.start-stop').textContent = 'Start';
+        isPaused = true;
+    }
+
+    document.querySelector('.start-stop').addEventListener('click', startStopSlideshow);
+    document.querySelector('.prev').addEventListener('click', prevSlide);
+    document.querySelector('.next').addEventListener('click', nextSlide);
+
+    addSlides();
+    showSlides();
+</script>
