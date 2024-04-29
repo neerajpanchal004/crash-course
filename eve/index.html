@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>evaluation</title>
+</head>
+<body style="display: flex; flex-direction: column; justify-items: center; align-items: center;">
+
+    <h1 style="align-items: center;">Employee Management</h1>
+
+    <div id="root">
+
+        <div id="upper">
+<!-- DEPARTMENT -->
+            <label for="departments">
+                Filter by Department:
+                <select id="departments">
+                    <option value="">Select Department</option>
+                    <option value="all">All the Departments</option>
+                    <option value="hr">hr</option>
+                    <option value="finance">finance</option>
+                    <option value="marketing">marketing</option>
+                    <option value="engineering">engineering</option>
+                    <option value="operations">operations</option>
+                </select>
+            </label>
+            <!-- DEPARTMENT -->
+
+            <!-- GENDER -->
+
+            <label for="gender">
+                Filter by Gender:
+                <select id="gender">
+                    <option value="">Select Gender</option>
+                    <option value="all">All the genders</option>
+                    <option value="male">male</option>
+                    <option value="female">female</option>
+                    <option value="others">others</option>
+                </select>
+            </label>
+
+             <!-- GENDER -->
+
+             <!-- SALARY -->
+
+            <label for="salary">
+                Sort by salary:
+                <select id="salary">
+                    <option value="">Sort by order</option>
+                    <option value="desc">High to low</option>
+                    <option value="asc">Low to High</option>
+                </select>
+            </label>
+          </div>
+
+          
+ <!-- SALARY -->
+
+ <!-- TABLE -->
+          <div id="tabel">
+
+            <table style="margin: 20px;">
+
+                <thead>
+                    <tr>
+                        <th>S.no</th>
+                        <th>Name</th>
+                        <th>Gender</th>
+                        <th>Department</th>
+                        <th>salary</th>
+                    </tr>
+                 </thead>
+                
+                 
+                <tbody id="tbody">
+
+                </tbody>
+
+            </table>
+
+            <!-- TABLE -->
+
+            </div>
+    </div>
+<!-- PAGE BUTTON -->
+    <div id="pagination">
+       <button id="Previous">Previous</button>
+       <button id="Next" >Next</button>
+    </div>
+
+    <!-- PAGE BUTTON -->
+</body>
+<script src="./index.js"></script>
+</html>
