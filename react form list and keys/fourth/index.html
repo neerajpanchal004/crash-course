@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advanced Task Manager</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+
+      th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      input[type="text"], input[type="checkbox"], button {
+        margin-right: 10px;
+      }
+
+      button {
+        padding: 8px 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/babel">
+      const API_URL = 'http://localhost:3000/todos'; 
+
+      function TaskManager() {
+        const [tasks, setTasks] = React.useState([]);
+        const [newTask, setNewTask] = React.useState({ title: '', isCompleted: false, assignee: '' });
+
+        React.useEffect(() => {
+          getAllTasks();
+        }, []);
+
+        async function getAllTasks() {
+          try {
+            const response = await axios.get(API_URL);
+            setTasks(response.data);
+          } catch (error) {
+            console.error('Error fetching tasks: ', error);
+          }
+        }
+
+        async function addTask() {
+          try {
+            const response = await axios.post(API_URL, newTask);
+            setTasks([...tasks, response.data]);
+            setNewTask({ title: '', isCompleted: false, assignee: '' });
+          } catch (error) {
+            console.error('Error adding task: ', error);
+          }
+        }
+
+        async function updateTask(taskId, updatedTask) {
+          try {
+            await axios.put(`${API_URL}/${taskId}`, updatedTask);
+            const updatedTasks = tasks.map(task =>
+              task.id === taskId ? { ...task, ...updatedTask } : task
+            );
+            setTasks(updatedTasks);
+          } catch (error) {
+            console.error('Error updating task: ', error);
+          }
+        }
+
+        async function deleteTask(taskId) {
+          try {
+            await axios.delete(`${API_URL}/${taskId}`);
+            const filteredTasks = tasks.filter(task => task.id !== taskId);
+            setTasks(filteredTasks);
+          } catch (error) {
+            console.error('Error deleting task: ', error);
+          }
+        }
+
+        function handleInputChange(event) {
+          const { name, value } = event.target;
+          setNewTask(prevState => ({ ...prevState, [name]: value }));
+        }
+
+        function handleCheckboxChange(event) {
+          const { name, checked } = event.target;
+          setNewTask(prevState => ({ ...prevState, [name]: checked }));
+        }
+
+        function handleUpdate(taskId, updatedTask) {
+          updateTask(taskId, updatedTask);
+        }
+
+        function handleDelete(taskId) {
+          deleteTask(taskId);
+        }
+
+        return (
+          <div className="container">
+            <h1>Advanced Task Manager</h1>
+            <div>
+              <input type="text" name="title" value={newTask.title} onChange={handleInputChange} placeholder="Title" />
+              <input
+                type="checkbox"
+                name="isCompleted"
+                checked={newTask.isCompleted}
+                onChange={handleCheckboxChange}
+              />
+              <input type="text" name="assignee" value={newTask.assignee} onChange={handleInputChange} placeholder="Assignee" />
+              <button onClick={addTask}>Add Task</button>
+            </div>
+            <button onClick={getAllTasks}>Get All Tasks</button>
+            <table>
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Completed</th>
+                  <th>Assignee</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {tasks.map(task => (
+                  <tr key={task.id}>
+                    <td>{task.title}</td>
+                    <td>{task.isCompleted ? 'Yes' : 'No'}</td>
+                    <td>{task.assignee}</td>
+                    <td>
+                      <button onClick={() => handleUpdate(task.id, { isCompleted: !task.isCompleted })}>
+                        {task.isCompleted ? 'Mark as Incomplete' : 'Mark as Complete'}
+                      </button>
+                      <button onClick={() => handleDelete(task.id)}>Delete</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+      }
+
+      ReactDOM.render(<TaskManager />, document.getElementById('root'));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToDo List</title>
+    <style>
+
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 0 20px;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      form {
+        display: flex;
+        margin-bottom: 20px;
+      }
+
+      input[type="text"] {
+        flex: 1;
+        padding: 10px;
+        font-size: 16px;
+      }
+
+      input[type="submit"] {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      li input[type="checkbox"] {
+        margin-right: 10px;
+      }
+
+      li.delete button {
+        margin-left: auto;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      li.completed {
+        text-decoration: line-through;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+
+function ToDoList() {
+        const [items, setItems] = React.useState([]);
+        const [text, setText] = React.useState('');
+
+        function handleChange(event) {
+          setText(event.target.value);
+        }
+
+        function handleSubmit(event) {
+          event.preventDefault();
+          if (text.trim() === '') return;
+          const newItems = [...items, { text, completed: false }];
+          setItems(newItems);
+          setText('');
+        }
+
+        function handleDelete(index) {
+          const newItems = items.filter((_, i) => i !== index);
+          setItems(newItems);
+        }
+
+        function handleToggleComplete(index) {
+          const newItems = [...items];
+          newItems[index].completed = !newItems[index].completed;
+          setItems(newItems);
+        }
+
+        return (
+          <div className="container">
+            <h1>To Do List</h1>
+            <form onSubmit={handleSubmit}>
+              <input type="text" value={text} onChange={handleChange} placeholder="Enter a new task..." />
+              <input type="submit" value="Add" />
+            </form>
+            <ul>
+              {items.map((item, index) => (
+                <li key={index} className={item.completed ? 'completed' : ''}>
+                  <input
+                    type="checkbox"
+                    checked={item.completed}
+                    onChange={() => handleToggleComplete(index)}
+                  />
+                  <span>{item.text}</span>
+                  <button onClick={() => handleDelete(index)}>Delete</button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+      }
+
+      ReactDOM.render(<ToDoList />, document.getElementById('root'));
+    </script>
+  </body>
+</html>

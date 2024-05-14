@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profiles</title>
+    <style>
+
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 0 20px;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      li {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+
+      img {
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+
+function UserProfile({ user }) {
+        return (
+          <li>
+            <img src={user.avatar} alt={user.name} width="50" height="50" />
+            {user.name}
+          </li>
+        );
+      }
+
+
+      function App() {
+        const [search, setSearch] = React.useState('');
+        const [filteredUsers, setFilteredUsers] = React.useState(users);
+
+        function handleSearch(event) {
+          setSearch(event.target.value);
+          const filtered = users.filter(user =>
+            user.name.toLowerCase().includes(event.target.value.toLowerCase())
+          );
+          setFilteredUsers(filtered);
+        }
+
+        return (
+          <div className="container">
+            <h1>User Profiles</h1>
+            <input
+              type="text"
+              value={search}
+              onChange={handleSearch}
+              placeholder="Search by name..."
+            />
+            <ul>
+              {filteredUsers.map(user => (
+                <UserProfile key={user.id} user={user} />
+              ))}
+            </ul>
+          </div>
+        );
+      }
+
+
+      const users = [
+        { id: 1, name: 'John Doe', avatar: 'https://randomuser.me/api/portraits/men/1.jpg' },
+        { id: 2, name: 'Jane Smith', avatar: 'https://randomuser.me/api/portraits/women/1.jpg' },
+        { id: 3, name: 'Alice Johnson', avatar: 'https://randomuser.me/api/portraits/women/2.jpg' },
+        { id: 4, name: 'Bob Brown', avatar: 'https://randomuser.me/api/portraits/men/2.jpg' },
+      ];
+
+      ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+  </body>
+</html>
