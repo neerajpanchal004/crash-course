@@ -1,41 +1,3 @@
-// import axios from 'axios'
-// import React, { useEffect } from 'react'
-// import { Link } from 'react-router-dom'
-
-// const Ticket = () => {
-//   const [data, setData] = useState([])
-//   async function fetchData() {
-//     try {
-//       let res = await axios.get('http://localhost:3000/tickets')
-//       let response = res.data;
-//       setData(response)
-//       console.log(response)
-//     } catch (error) {
-//       console.log(error)
-//     }
-//   }
-//   useEffect(() => {
-//     fetchData()
-//   }, [])
-//   if(data.length==0){
-//     return <h1>no data</h1>
-//   }
-//   const {id,title,priority}=data;
-//   return (
-//     <div>
-//       <div><Link to='/createticket'>Create Ticket</Link></div>
-//       <div>
-        
-//         <p>{id}</p>
-//         <h2>{title}</h2>
-//         <h2>{priority}</h2>
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default Ticket
-
 
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
@@ -81,6 +43,7 @@ const Ticket = () => {
               <th className="px-4 py-2 border-b">ID</th>
               <th className="px-4 py-2 border-b">Title</th>
               <th className="px-4 py-2 border-b">Priority</th>
+              <th className="px-4 py-2 border-b">View Ticket</th>
             </tr>
           </thead>
           <tbody>
@@ -89,6 +52,14 @@ const Ticket = () => {
                 <td className="px-4 py-2 border-b">{ticket.id}</td>
                 <td className="px-4 py-2 border-b">{ticket.title}</td>
                 <td className="px-4 py-2 border-b">{ticket.Priority}</td>
+                <td className="px-4 py-2 border-b">
+                  <Link
+                    to={`/viewticket/${ticket.id}`}
+                    className="bg-blue-500 text-white px-4 py-1 rounded-md hover:bg-blue-600"
+                  >
+                    View
+                  </Link>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -99,3 +70,4 @@ const Ticket = () => {
 }
 
 export default Ticket
+

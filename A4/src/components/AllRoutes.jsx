@@ -7,6 +7,7 @@ import Ticket from './Ticket'
 import Login from './Login'
 import PrivateRoute from './PrivateRoute'
 import CreateTicket from './CreateTicket'
+import ViewPage from './ViewPage'
 
 const AllRoutes = () => {
   return (
@@ -16,6 +17,8 @@ const AllRoutes = () => {
         <Route path='/contact' element={<PrivateRoute><Contact/></PrivateRoute>} />
         <Route path='/ticket' element={<PrivateRoute><Ticket/></PrivateRoute>} />
         <Route path='/createticket' element={<PrivateRoute><CreateTicket/></PrivateRoute>} />
+        <Route path='/viewticket/:id' element={<PrivateRoute><ViewPage/></PrivateRoute>} />
+
 
         <Route path='/login' element={<Login/>} />
 
