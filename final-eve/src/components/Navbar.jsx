@@ -12,9 +12,11 @@ const Navbar = () => {
 
   return (
     <div className='flex p-5 bg-blue-500 text-white font-semibold justify-around'>
-        <Link to="/">Home</Link>
-        {email}
-        <Link to="/login">{isAuthenticated?<button onClick={logout}>Logout</button>:"Login"}</Link>
+      <div>{email}</div>
+       <div>
+       {isAuthenticated?<Link to="/">Home</Link>:null}
+        <Link to="/login" className='mx-10'>{isAuthenticated?<button onClick={logout}>Logout</button>:"Login"}</Link>
+       </div>
 
         
 
