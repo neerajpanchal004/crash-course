@@ -1,7 +1,6 @@
 import React from 'react'
 import AllRoutes from './components/AllRoutes'
-import Navbar from './components/Navbar'
-import Login from './components/Login'
+
 
 const App = () => {
   return (
